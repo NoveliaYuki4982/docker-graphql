@@ -25,7 +25,7 @@ jobs:
         echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
     - name: Build docker image
       run: |
-        docker build -t novelia/graphql-actions:1.0.1 .
+        docker build -t novelia/docker-graphql:1.0.1 .
     - name: Push docker image
       run: |
         docker push novelia/docker-graphql:1.0.1 .
