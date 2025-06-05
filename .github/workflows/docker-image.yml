@@ -32,6 +32,8 @@ jobs:
         echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
     
     - name: Build docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker build -t novelia/docker-graphql:$NEW_VERSION .
         docker build -t novelia/docker-graphql:latest .
