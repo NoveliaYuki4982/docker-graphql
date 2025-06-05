@@ -28,19 +28,21 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USER}" --password-stdin
-        echo "New version: $NEW_VERSION"
     
-    # - name: Build docker image
-    #   run: |
-    #     docker build -t novelia/docker-graphql:1.0.1 .
-    #     docker build -t novelia/docker-graphql:latest .
-    # - name: Push docker image
-    #   run: |
-    #     docker push novelia/docker-graphql:1.0.1
-    #     docker push novelia/docker-graphql:latest
+    - name: Build docker image
+      run: |
+        docker build -t novelia/docker-graphql:$NEW_VERSION .
+        docker build -t novelia/docker-graphql:latest .
+    - name: Push docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push novelia/docker-graphql:$NEW_VERSION
+        docker push novelia/docker-graphql:latest
     
     # - name: Build the Docker image
+    #   env:
+    #     NEW_VERSION: ${{ steps.version.outputs.version }}
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
